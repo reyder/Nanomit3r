@@ -18,6 +18,7 @@ Nanomiter uses a number of open source projects to work properly:
 
 * [Capstone] - lightweight multi-platform, multi-architecture disassembly framework
 * [argparse] - simple C++ header only command line argument parser
+* [json.h] - simple single header solution to parsing JSON in C and C++.
 
 ### Installation
 
@@ -48,4 +49,4 @@ Make sure to install capstone library from brew and link it in the project.
 
    [Capstone]: <https://www.capstone-engine.org/>
    [argparse]: <https://github.com/jamolnng/argparse>
-
+   [json.h]: <https://github.com/sheredom/json.h>
