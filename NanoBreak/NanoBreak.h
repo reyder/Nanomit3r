@@ -1,13 +1,15 @@
 //
-//  debugger.h
-//  debug
+//  NanoBreak.hpp
+//  NanoBreak
 //
-//  Created by Marek Kulik on 30/03/2019.
-//  Copyright © 2019 OleOle. All rights reserved.
+//  Created by Marek Kulik on 05/04/2020.
+//  Copyright © 2020 Marek Kulik. All rights reserved.
 //
 
-#ifndef debugger_h
-#define debugger_h
+#ifndef NanoBreak_
+#define NanoBreak_
+
+
 
 #include <stdio.h>
 
@@ -50,4 +52,7 @@ extern boolean_t exc_server(mach_msg_header_t *request, mach_msg_header_t *reply
 extern boolean_t mach_exc_server(mach_msg_header_t *request,mach_msg_header_t *reply);
 
 
-#endif /* debugger_h */
+
+
+#endif
+

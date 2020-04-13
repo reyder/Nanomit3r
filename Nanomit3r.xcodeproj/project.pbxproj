@@ -1,0 +1,454 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		120B2B7F242AED3C00C5C5B5 /* JSONAnt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 120B2B7D242AED3C00C5C5B5 /* JSONAnt.cpp */; };
+		121A091A23E71B8100922BC8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 121A091923E71B8100922BC8 /* main.cpp */; };
+		121A092223E71BC100922BC8 /* CVMStuff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 121A092023E71BC000922BC8 /* CVMStuff.cpp */; };
+		12CBE50D243A2CC700E6B549 /* NanoBreak.h in Headers */ = {isa = PBXBuildFile; fileRef = 12CBE50C243A2CC700E6B549 /* NanoBreak.h */; };
+		12CBE511243A2CC700E6B549 /* NanoBreak.c in Sources */ = {isa = PBXBuildFile; fileRef = 12CBE510243A2CC700E6B549 /* NanoBreak.c */; };
+		12CBE518243A2F4200E6B549 /* mach_excServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 12CBE516243A2F4200E6B549 /* mach_excServer.h */; };
+		12CBE519243A2F4200E6B549 /* mach_excServer.c in Sources */ = {isa = PBXBuildFile; fileRef = 12CBE517243A2F4200E6B549 /* mach_excServer.c */; };
+		12CBE51C243A4D6900E6B549 /* json.h in Headers */ = {isa = PBXBuildFile; fileRef = 12CBE51A243A4D6900E6B549 /* json.h */; };
+		12CBE51F243BBE9800E6B549 /* a.data in Sources */ = {isa = PBXBuildFile; fileRef = 12CBE51E243BBE9800E6B549 /* a.data */; };
+		12E6FFA423F9D0150092DC56 /* libcapstone.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 12E6FFA323F9D0150092DC56 /* libcapstone.4.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		121A091423E71B8100922BC8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		120B2B7D242AED3C00C5C5B5 /* JSONAnt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JSONAnt.cpp; sourceTree = "<group>"; };
+		120B2B7E242AED3C00C5C5B5 /* JSONAnt.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = JSONAnt.hpp; sourceTree = "<group>"; };
+		121A091623E71B8100922BC8 /* Nanomit3r */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Nanomit3r; sourceTree = BUILT_PRODUCTS_DIR; };
+		121A091923E71B8100922BC8 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		121A092023E71BC000922BC8 /* CVMStuff.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CVMStuff.cpp; sourceTree = "<group>"; };
+		121A092123E71BC000922BC8 /* CVMStuff.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CVMStuff.hpp; sourceTree = "<group>"; };
+		12CBE50A243A2CC700E6B549 /* libNanoBreak.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libNanoBreak.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		12CBE50C243A2CC700E6B549 /* NanoBreak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoBreak.h; sourceTree = "<group>"; };
+		12CBE510243A2CC700E6B549 /* NanoBreak.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = NanoBreak.c; sourceTree = "<group>"; };
+		12CBE516243A2F4200E6B549 /* mach_excServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mach_excServer.h; sourceTree = "<group>"; };
+		12CBE517243A2F4200E6B549 /* mach_excServer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mach_excServer.c; sourceTree = "<group>"; };
+		12CBE51A243A4D6900E6B549 /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		12CBE51E243BBE9800E6B549 /* a.data */ = {isa = PBXFileReference; lastKnownFileType = text; path = a.data; sourceTree = "<group>"; };
+		12E6FF9F23F9C6580092DC56 /* argparse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = argparse.hpp; sourceTree = "<group>"; };
+		12E6FFA323F9D0150092DC56 /* libcapstone.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcapstone.4.dylib; path = ../../../../usr/local/Cellar/capstone/4.0.1/lib/libcapstone.4.dylib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		121A091323E71B8100922BC8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12E6FFA423F9D0150092DC56 /* libcapstone.4.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		12CBE508243A2CC700E6B549 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		121A090D23E71B8100922BC8 = {
+			isa = PBXGroup;
+			children = (
+				121A091823E71B8100922BC8 /* Nanomit3r */,
+				12CBE50B243A2CC700E6B549 /* NanoBreak */,
+				121A091723E71B8100922BC8 /* Products */,
+				12E6FFA223F9D0150092DC56 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		121A091723E71B8100922BC8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				121A091623E71B8100922BC8 /* Nanomit3r */,
+				12CBE50A243A2CC700E6B549 /* libNanoBreak.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		121A091823E71B8100922BC8 /* Nanomit3r */ = {
+			isa = PBXGroup;
+			children = (
+				12E6FFA123F9CDED0092DC56 /* CVM */,
+				121A091923E71B8100922BC8 /* main.cpp */,
+				12E6FF9F23F9C6580092DC56 /* argparse.hpp */,
+				120B2B7D242AED3C00C5C5B5 /* JSONAnt.cpp */,
+				120B2B7E242AED3C00C5C5B5 /* JSONAnt.hpp */,
+			);
+			path = Nanomit3r;
+			sourceTree = "<group>";
+		};
+		12CBE50B243A2CC700E6B549 /* NanoBreak */ = {
+			isa = PBXGroup;
+			children = (
+				12CBE515243A2F2A00E6B549 /* MachDebugger */,
+				12CBE50C243A2CC700E6B549 /* NanoBreak.h */,
+				12CBE510243A2CC700E6B549 /* NanoBreak.c */,
+				12CBE51A243A4D6900E6B549 /* json.h */,
+				12CBE51E243BBE9800E6B549 /* a.data */,
+			);
+			path = NanoBreak;
+			sourceTree = "<group>";
+		};
+		12CBE515243A2F2A00E6B549 /* MachDebugger */ = {
+			isa = PBXGroup;
+			children = (
+				12CBE516243A2F4200E6B549 /* mach_excServer.h */,
+				12CBE517243A2F4200E6B549 /* mach_excServer.c */,
+			);
+			path = MachDebugger;
+			sourceTree = "<group>";
+		};
+		12E6FFA123F9CDED0092DC56 /* CVM */ = {
+			isa = PBXGroup;
+			children = (
+				121A092023E71BC000922BC8 /* CVMStuff.cpp */,
+				121A092123E71BC000922BC8 /* CVMStuff.hpp */,
+			);
+			path = CVM;
+			sourceTree = "<group>";
+		};
+		12E6FFA223F9D0150092DC56 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				12E6FFA323F9D0150092DC56 /* libcapstone.4.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		12CBE506243A2CC700E6B549 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12CBE51C243A4D6900E6B549 /* json.h in Headers */,
+				12CBE50D243A2CC700E6B549 /* NanoBreak.h in Headers */,
+				12CBE518243A2F4200E6B549 /* mach_excServer.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		121A091523E71B8100922BC8 /* Nanomit3r */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 121A091D23E71B8100922BC8 /* Build configuration list for PBXNativeTarget "Nanomit3r" */;
+			buildPhases = (
+				121A091223E71B8100922BC8 /* Sources */,
+				121A091323E71B8100922BC8 /* Frameworks */,
+				121A091423E71B8100922BC8 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Nanomit3r;
+			productName = Nanomit3r;
+			productReference = 121A091623E71B8100922BC8 /* Nanomit3r */;
+			productType = "com.apple.product-type.tool";
+		};
+		12CBE509243A2CC700E6B549 /* NanoBreak */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 12CBE512243A2CC700E6B549 /* Build configuration list for PBXNativeTarget "NanoBreak" */;
+			buildPhases = (
+				12CBE506243A2CC700E6B549 /* Headers */,
+				12CBE507243A2CC700E6B549 /* Sources */,
+				12CBE508243A2CC700E6B549 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NanoBreak;
+			productName = NanoBreak;
+			productReference = 12CBE50A243A2CC700E6B549 /* libNanoBreak.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		121A090E23E71B8100922BC8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = "Marek Kulik";
+				TargetAttributes = {
+					121A091523E71B8100922BC8 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
+					12CBE509243A2CC700E6B549 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 121A091123E71B8100922BC8 /* Build configuration list for PBXProject "Nanomit3r" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 121A090D23E71B8100922BC8;
+			productRefGroup = 121A091723E71B8100922BC8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				121A091523E71B8100922BC8 /* Nanomit3r */,
+				12CBE509243A2CC700E6B549 /* NanoBreak */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		121A091223E71B8100922BC8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				120B2B7F242AED3C00C5C5B5 /* JSONAnt.cpp in Sources */,
+				121A091A23E71B8100922BC8 /* main.cpp in Sources */,
+				121A092223E71BC100922BC8 /* CVMStuff.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		12CBE507243A2CC700E6B549 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12CBE51F243BBE9800E6B549 /* a.data in Sources */,
+				12CBE519243A2F4200E6B549 /* mach_excServer.c in Sources */,
+				12CBE511243A2CC700E6B549 /* NanoBreak.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		121A091B23E71B8100922BC8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMPILER_INDEX_STORE_ENABLE = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/usr/local/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		121A091C23E71B8100922BC8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMPILER_INDEX_STORE_ENABLE = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					/usr/local/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		121A091E23E71B8100922BC8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/capstone/4.0.1/lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		121A091F23E71B8100922BC8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/capstone/4.0.1/lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		12CBE513243A2CC700E6B549 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CODE_SIGN_STYLE = Automatic;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		12CBE514243A2CC700E6B549 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CODE_SIGN_STYLE = Automatic;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		121A091123E71B8100922BC8 /* Build configuration list for PBXProject "Nanomit3r" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				121A091B23E71B8100922BC8 /* Debug */,
+				121A091C23E71B8100922BC8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		121A091D23E71B8100922BC8 /* Build configuration list for PBXNativeTarget "Nanomit3r" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				121A091E23E71B8100922BC8 /* Debug */,
+				121A091F23E71B8100922BC8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		12CBE512243A2CC700E6B549 /* Build configuration list for PBXNativeTarget "NanoBreak" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				12CBE513243A2CC700E6B549 /* Debug */,
+				12CBE514243A2CC700E6B549 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 121A090E23E71B8100922BC8 /* Project object */;
+}
