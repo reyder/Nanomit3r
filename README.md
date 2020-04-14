@@ -8,11 +8,47 @@ Nanomiter is an experimental project focused on showing a concept of implementin
 
 This implementation targets macOS system only ! Other operating systems are not taken into consideration in future development.
 
-# New Features!
+## New Features!
 
   - You can specify what sections are analyzed in 1st stage
 
-### Tech
+## Development
+
+Want to contribute? Great! .. but not yet !
+
+## Building for source
+
+For development build:
+```sh
+$ xcodebuild -target Nanomit3r -scheme DEBUG build
+```
+Make sure to install capstone library from brew and link it in the project.
+
+## Usage
+
+First step is to analyze binary file that we want to nanomite. Example of the command:
+
+```bash
+/Users/korona/Nanomit3r -f /Users/korona/csr -s __text -g __TEXT -o /Users/korona/nanomite_data.json --output2 /Users/korona/csr_mod
+```
+
+In result we receive 2 files:
+* JSON file with nanomite data
+* Modified binary file with nanomites
+
+Next step is to build external library. We need first copy `nanomite_data.json` file to Nanobreak folder in this project. Afterwards execute:
+
+```bash
+xcodebuild -target NanoBreak -scheme DEBUG build
+```
+
+Finally we have alle parts and we can execute our binary. You can use any injection method to attach dylib. For testing purposes you can try:
+
+```bash
+DYLD_INSERT_LIBRARIES=/Users/korona/libNanoBreak.dylib /Users/korona/csr_mod
+```
+
+## Tech
 
 Nanomiter uses a number of open source projects to work properly:
 
@@ -20,28 +56,13 @@ Nanomiter uses a number of open source projects to work properly:
 * [argparse] - simple C++ header only command line argument parser
 * [json.h] - simple single header solution to parsing JSON in C and C++.
 
-### Installation
+## Todos
 
-TODO
-
-### Development
-
-Want to contribute? Great! .. but not yet !
-
-#### Building for source
-For development build:
-```sh
-$ xcodebuild -scheme DEBUG build
-```
-Make sure to install capstone library from brew and link it in the project.
-
-### Todos
-
- - Add json output file for PART 1
- - Support multiple segments / sections in dissassembly
- - Add limits for nanomites
- - Randomization
- - Add support for calls
+- [ ] Add json output file for PART 1
+- [ ] Support multiple segments / sections in dissassembly
+- [ ] Add limits for nanomites
+- [ ] Randomization
+- [ ] Add support for calls
 
 **Free Software, Hell Yeah!**
 
