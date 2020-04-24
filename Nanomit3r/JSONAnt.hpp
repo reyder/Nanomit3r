@@ -24,7 +24,7 @@ using namespace std;
 class JSONAnt {
 public:
     JSONAnt();
-	void add(uint32_t offset, string mnemonic, int32_t jmp_offset);
+	void add(uint32_t offset, uint mnemonic, int32_t jmp_offset, int32_t next_inst_offset);
 	void emerge();  // DEPRACTED
 	void to_file(string path);
 	void add_br(uint32_t offset);  // TEMP

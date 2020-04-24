@@ -30,8 +30,8 @@ void JSONAnt::emerge() {
 
 // it's 2020, we have corona virus but no format library, YaY
 // but it's coming c++ 20
-void JSONAnt::add(uint32_t offset, string mnemonic, int32_t jmp_offset) {
-	string template_json = "{\"offset\": " + std::to_string(offset) + ",\"mnemonic\": " + mnemonic + ",\"jmp_offset\": " + std::to_string(jmp_offset) + "}";
+void JSONAnt::add(uint32_t offset, uint mnemonic, int32_t jmp_offset, int32_t next_inst_offset) {
+	string template_json = "{\\\"offset\\\": " + std::to_string(offset) + ",\\\"mnemonic\\\": " + std::to_string(mnemonic) + ",\\\"jmp_offset\\\": " + std::to_string(jmp_offset) + ",\\\"next_inst_offset\\\": " + std::to_string(next_inst_offset) + " }";
     json_parts.emplace_back(template_json);
 }
 

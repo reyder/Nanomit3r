@@ -1,6 +1,6 @@
 //
 //  CVMStuff.cpp
-//  UnL0ck
+//  Nanomite
 //
 //  Created by reyder on 21/02/2019.
 //  Copyright © 2019 OleOle. All rights reserved.
@@ -71,14 +71,12 @@ void CVMStuff::addNanomiteType(int type) {
     nanomite_types.emplace_back(type);
 }
 
-
 void CVMStuff::lookForSections() {
 	#if DEBUG
 		printf("[DEBUG] Start searching for sections and segments...\n");
 	#endif
   
 	const struct mach_header_64 *mh = (const struct mach_header_64*)raw_data.data();
-	
 	
 	for (sections &section_data: binary_sections) {
 		auto& [segment, section, address, size, perm, aslr] = section_data;
@@ -108,14 +106,13 @@ bool CVMStuff::lookForNanomites(JSONAnt& ptr) {
 	char *hack_and_magic;
 	uint8_t *real_data;
 	hack_and_magic = (char *)raw_data.data();
-		//printf("[DEBUG]  %llx n", *real_data);
-	
+
 	#if DEBUG
 		printf("[DEBUG] Start searching for potential nanomites.......\n");
 	#endif
 	
 	for (sections section: binary_sections) {
-		auto offset = get<2>(section) - 0x100000000;
+		auto offset = get<2>(section) - BASE_ADDR;
 		auto size = get<3>(section);
 		real_data = (uint8_t *)(hack_and_magic+offset);
 
@@ -123,32 +120,43 @@ bool CVMStuff::lookForNanomites(JSONAnt& ptr) {
 		
 		#if DEBUG
 			printf("[DEBUG] Found [ %zu ] instruction !\n", count);
+
+			int added = 0;
 		#endif
-		
-		int added = 0;
 		
 		if (count > 0) {
 			for (int j = 0; j < count; j++) {
 				if (std::find(nanomite_types.begin(), nanomite_types.end(), insn[j].id) != nanomite_types.end()) {
 					// have no idea how to print offset here. datail object, ox x86 not found
 					// workaround for now..
-					
-					added++;
-					
 					unsigned long pre_offset = std::stoul(insn[j].op_str, nullptr, 16);
-			
-					//printf("1: %s\n", insn[j].op_str);
-					//printf("2: %lu\n", pre_offset);
-					printf("0x%" PRIx64":\t%s\t\t%lld\n", insn[j].address, insn[j].mnemonic, (pre_offset - insn[j].address));
-					ptr.add_br(insn[j].address - 0x100000000);
-					ptr.add(insn[j].address, insn[j].mnemonic,  (pre_offset - insn[j].address));
+					auto offset = pre_offset - insn[j].address;
+
+					// We need to know where is next instruction.
+					// This is required for conditional jmps if jmp is not made
+					if (j + 1 >= count && insn[j].id != X86_INS_JMP && insn[j].id != X86_INS_CALL) {
+						// That's should never heppend but it might theoretically
+						printf("Exception 0x386");
+						return false;
+					}
+
 					
-				//	cs_detail *detail = insn[j].detail;
-					//cs_x86 *x86 = &(insn[j].detail->x86);
+					auto next_inst_offset = insn[j+1].address - insn[j].address;
+					
+					// Lets save space
+					if (insn[j].id == X86_INS_JMP || insn[j].id == X86_INS_CALL) {
+						next_inst_offset = 0;
+					}
+					
 
-				//	printf("%lli \n" , insn[j].detail->x86.operands[2].mem.disp);
+					ptr.add_br(insn[j].address - BASE_ADDR);
+					ptr.add(insn[j].address, insn[j].id, offset, next_inst_offset);
 
+					#if DEBUG
+						printf("0x%" PRIx64":\t%s\t\t%lld\t\t%lld\n", insn[j].address, insn[j].mnemonic, offset, next_inst_offset);
 
+						added++;
+					#endif
 				}
 			}
 			cs_free(insn, count);
@@ -161,13 +169,14 @@ bool CVMStuff::lookForNanomites(JSONAnt& ptr) {
 		cs_close(&handle);
 
 	}
-		
-	
-	
 	return true;
 }
 
 void CVMStuff::createNanomiteBinary(JSONAnt& ptr, string path) {
+	#if DEBUG
+		printf("[DEBUG] Creating new binary with nanomites\n");
+	#endif
+	
 	// that might have terrrible performance. it's ok for now. JMIW
 	for (auto &offset: ptr.bp_addr) {
 		raw_data.replace(offset, 2, "\xCC\x90"s);

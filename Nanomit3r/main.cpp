@@ -48,7 +48,7 @@ int main(int argc, const char * argv[]) {
 		.names({"-o2", "--output2"})
 		.description("Path to JSON output file")
 		.required(true);
-	
+
 	parser.add_argument()
 		.names({"-s", "--section"})
 		.description("Binary section that needs be analyzed")
@@ -90,10 +90,9 @@ int main(int argc, const char * argv[]) {
     };
 	
 	// Types of instruction to nanomite
-	// TODO: look up, add non conditional short jmp, maybe calls
-	static const int nanomites_types[19] = {
+	static const int nanomites_types[21] = {
 		X86_INS_JAE, X86_INS_JA, X86_INS_JBE, X86_INS_JB, X86_INS_JCXZ, X86_INS_JECXZ, X86_INS_JE, X86_INS_JGE, X86_INS_JG, X86_INS_JLE, X86_INS_JL,
-		X86_INS_JNE, X86_INS_JNO, X86_INS_JNP, X86_INS_JNS, X86_INS_JO, X86_INS_JP, X86_INS_JRCXZ, X86_INS_JS
+		X86_INS_JNE, X86_INS_JNO, X86_INS_JNP, X86_INS_JNS, X86_INS_JO, X86_INS_JP, X86_INS_JRCXZ, X86_INS_JS, X86_INS_JMP, X86_INS_CALL
     };
 	
 	// Create G0d instance

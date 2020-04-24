@@ -40,7 +40,7 @@
 
 
 
-/// CHECKED by reyder
+/// CHECKED by me
 #include <capstone/capstone.h>
 #include "../JSONAnt.hpp"
 
@@ -57,7 +57,8 @@ typedef tuple<string, string, mach_vm_address_t, uint64_t, uint8_t, intptr_t> se
 /* ######################
  ######### MACROS #######
  ##################### */
-#define NANOMITE    "\xCC\x90"s;
+#define BASE_ADDR 0x100000000
+#define NANOMITE    "\xCC\x90";
 
 
 #define FUCK_STACK_FRAME    asm("pop %rbp");
