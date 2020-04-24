@@ -61,7 +61,7 @@ typedef tuple<string, string, mach_vm_address_t, uint64_t, uint8_t, intptr_t> se
 #define NANOMITE    "\xCC\x90";
 
 
-#define FUCK_STACK_FRAME    asm("pop %rbp");
+#define SLAP_STACK_FRAME    asm("pop %rbp");
 #define PUSH_REGISTERS      asm("push %%rdi;" "push %%rsi;" "push %%rdx;" "push %%rcx;" "push %%rbx;" "push %%r8;" "push %%r9;" "push %%r10;" "push %%r11;" "push %%r12;" "push %%r13;" "push %%r14;" ::);
 #define POP_REGISTERS       asm("pop %%r14;" "pop %%r13;" "pop %%r12;" "pop %%r11;" "pop %%r10;" "pop %%r9;" "pop %%r8;" "pop %%rbx;" "pop %%rcx;" "pop %%rdx;" "pop %%rsi;" "pop %%rdi;" ::);
 

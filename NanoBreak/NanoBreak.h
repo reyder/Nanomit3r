@@ -22,6 +22,12 @@
 if (kr != KERN_SUCCESS) { mach_error(msg ":" , kr); exit((retval)); }
 
 
+// Macros
+#define BASE_ADDR 0x100000000
+#define ZERO_FLAG 0x0040
+#define SLAP_STACK_FRAME    asm("pop %rbp");
+
+
 // exception message we will receive from the kernel
 typedef struct exc_msg {
 	mach_msg_header_t          Head;

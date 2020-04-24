@@ -10,8 +10,8 @@
 		120B2B7F242AED3C00C5C5B5 /* JSONAnt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 120B2B7D242AED3C00C5C5B5 /* JSONAnt.cpp */; };
 		121A091A23E71B8100922BC8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 121A091923E71B8100922BC8 /* main.cpp */; };
 		121A092223E71BC100922BC8 /* CVMStuff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 121A092023E71BC000922BC8 /* CVMStuff.cpp */; };
+		128EC70D24537C9F0048C17B /* NanoBreak.c in Sources */ = {isa = PBXBuildFile; fileRef = 128EC70C24537C9F0048C17B /* NanoBreak.c */; };
 		12CBE50D243A2CC700E6B549 /* NanoBreak.h in Headers */ = {isa = PBXBuildFile; fileRef = 12CBE50C243A2CC700E6B549 /* NanoBreak.h */; };
-		12CBE511243A2CC700E6B549 /* NanoBreak.c in Sources */ = {isa = PBXBuildFile; fileRef = 12CBE510243A2CC700E6B549 /* NanoBreak.c */; };
 		12CBE518243A2F4200E6B549 /* mach_excServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 12CBE516243A2F4200E6B549 /* mach_excServer.h */; };
 		12CBE519243A2F4200E6B549 /* mach_excServer.c in Sources */ = {isa = PBXBuildFile; fileRef = 12CBE517243A2F4200E6B549 /* mach_excServer.c */; };
 		12CBE51C243A4D6900E6B549 /* json.h in Headers */ = {isa = PBXBuildFile; fileRef = 12CBE51A243A4D6900E6B549 /* json.h */; };
@@ -38,9 +38,9 @@
 		121A091923E71B8100922BC8 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		121A092023E71BC000922BC8 /* CVMStuff.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CVMStuff.cpp; sourceTree = "<group>"; };
 		121A092123E71BC000922BC8 /* CVMStuff.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CVMStuff.hpp; sourceTree = "<group>"; };
+		128EC70C24537C9F0048C17B /* NanoBreak.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = NanoBreak.c; sourceTree = "<group>"; };
 		12CBE50A243A2CC700E6B549 /* libNanoBreak.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libNanoBreak.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		12CBE50C243A2CC700E6B549 /* NanoBreak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoBreak.h; sourceTree = "<group>"; };
-		12CBE510243A2CC700E6B549 /* NanoBreak.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = NanoBreak.c; path = ../../../../../../../Users/reyder/Downloads/NanoBreak.c; sourceTree = "<group>"; };
 		12CBE516243A2F4200E6B549 /* mach_excServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mach_excServer.h; sourceTree = "<group>"; };
 		12CBE517243A2F4200E6B549 /* mach_excServer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mach_excServer.c; sourceTree = "<group>"; };
 		12CBE51A243A4D6900E6B549 /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 			children = (
 				12CBE515243A2F2A00E6B549 /* MachDebugger */,
 				12CBE50C243A2CC700E6B549 /* NanoBreak.h */,
-				12CBE510243A2CC700E6B549 /* NanoBreak.c */,
+				128EC70C24537C9F0048C17B /* NanoBreak.c */,
 				12CBE51A243A4D6900E6B549 /* json.h */,
 				12EDE1D224460FFA000CAF29 /* a.data */,
 				12EDE1D524461202000CAF29 /* ww.h */,
@@ -242,7 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				12CBE519243A2F4200E6B549 /* mach_excServer.c in Sources */,
-				12CBE511243A2CC700E6B549 /* NanoBreak.c in Sources */,
+				128EC70D24537C9F0048C17B /* NanoBreak.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
