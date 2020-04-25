@@ -28,6 +28,29 @@ if (kr != KERN_SUCCESS) { mach_error(msg ":" , kr); exit((retval)); }
 #define SLAP_STACK_FRAME    asm("pop %rbp");
 
 
+// From capstone
+#define X86_INS_CALL 56
+#define X86_INS_JAE 253
+#define X86_INS_JA 254
+#define X86_INS_JBE 255
+#define X86_INS_JB 256
+#define X86_INS_JCXZ 257
+#define X86_INS_JECXZ 258
+#define X86_INS_JE 259
+#define X86_INS_JGE 260
+#define X86_INS_JG 261
+#define X86_INS_JLE 262
+#define X86_INS_JL 263
+#define X86_INS_JMP 264
+#define X86_INS_JNE 265
+#define X86_INS_JNO 266
+#define X86_INS_JNP 267
+#define X86_INS_JNS 268
+#define X86_INS_JO 269
+#define X86_INS_JP 270
+#define X86_INS_JRCXZ 271
+#define X86_INS_JS 272
+
 // exception message we will receive from the kernel
 typedef struct exc_msg {
 	mach_msg_header_t          Head;

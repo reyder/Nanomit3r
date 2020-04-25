@@ -92,11 +92,31 @@ void better_call_handler(uint64_t *state_struct_address) {
 	// Maybe to do
 }
 
-void handle_nanomite_type(uint64_t address, uint64_t mnemonic, uint64_t offset, uint64_t jmp_offset) {
+uint64_t handle_nanomite_type(uint64_t address, uint64_t mnemonic, uint64_t offset, uint64_t jmp_offset, uint64_t flags) {
+	if (mnemonic == X86_INS_CALL) {
+		return_call_address = address + jmp_offset;
+		target_call_address = address + offset;
+
+		return &call_trampoline;
+	}
 	
+	if (mnemonic == X86_INS_JE)
+		if (flags&ZERO_FLAG)
+			return address+offset;
+		else
+			return address+jmp_offset;
+	
+	if (mnemonic == X86_INS_JNE)
+		if (flags&ZERO_FLAG)
+			return address+jmp_offset;
+		else
+			return address+offset;
+
+	
+	return NULL;
 }
 
-void nanomite_recognize(uint64_t address) {
+uint64_t nanomite_recognize(uint64_t address, uint64_t flags) {
 	unsigned long long target_value = (address - aslr - BASE_ADDR - 0x1);
 	
 	struct json_array_s* main_array = json_value_as_array(root);
@@ -106,7 +126,7 @@ void nanomite_recognize(uint64_t address) {
 			printf("[Debug | Dylib] Exception data EMPTY !\n");
 		#endif
 		
-		return;
+		return NULL;
 	}
 	
 	// Here is all array with objects
@@ -118,7 +138,7 @@ void nanomite_recognize(uint64_t address) {
 		
 		// This is the end. Hold your breath and count to 10..
 		if (object != NULL) {
-			return;
+			return NULL;
 		}
 
 		// First value of (1,2,3,4...) object in array
@@ -136,7 +156,7 @@ void nanomite_recognize(uint64_t address) {
 			struct json_object_element_s* d = c->next;
 			struct json_number_s* value_4 = json_value_as_number(d->value);
 			
-			handle_nanomite_type(atoi(value_1->number), atoi(value_2->number), atoi(value_3->number), atoi(value_4->number));
+			return handle_nanomite_type(address, atoi(value_2->number), atoi(value_3->number), atoi(value_4->number), flags);
 		}
 		
 		// Go next
@@ -244,68 +264,14 @@ kern_return_t catch_mach_exception_raise(mach_port_t            port,
 	switch (exception) {
 		case EXC_BREAKPOINT: {
 			
+			uint64_t final = nanomite_recognize(rip, flags);
 			
-			
-			
-//			if (root != NULL) {
-//				printf("\nDBUG4\n");
-//				struct json_array_s* main_array = json_value_as_array(root);
-//				printf("\nASDBUG\n");
-//				if (main_array->length != 0) {
-//					struct json_array_element_s* arr_ele = main_array->start;
-//
-//					while (1) {
-//						struct json_object_s* object = json_value_as_object(arr_ele->value);
-//						if (object != NULL) {
-//							printf("\nSATUR\n");
-//							struct json_number_s* value_1 = json_value_as_number(object->start->value);
-//							printf("\nJSON: %s\n", value_1->number);
-//
-//
-//							unsigned long long target_value = (rip - _dyld_get_image_vmaddr_slide(0) - 0x100000000 - 0x1);
-//							printf("\nCMP1: %llu\n", target_value);
-//							if (target_value == atoi(value_1->number)) {
-//								printf("\nWHAT\n");
-//
-//									 state.__rip = state.__rip + 0x3F - 0x1;
-//
-//									 kr = thread_set_state(threadid, flavor, (thread_state_t)&state, count);
-//								install_debugger();
-//									return KERN_SUCCESS;
-//
-//
-//
-//								break;
-//
-//							}
-//
-//
-//
-//
-//
-//						} else {
-//							break;
-//						}
-//
-//						arr_ele = arr_ele->next;
-//
-//					}
-//
-//
-//				}
-//
-//			}
-//
-			
-			
-			
-			
-			
-			
-			
-			
+			state.__rip = final;
+			kr = thread_set_state(threadid, flavor, (thread_state_t)&state, count);
+			install_debugger();
 			return KERN_SUCCESS;
-			break;
+			
+			break; // ....
 		}
 			
 		default: {
