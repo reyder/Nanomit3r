@@ -30,6 +30,12 @@ __attribute ((noinline)) void exception_handler() {
 	// Add ASLR
 	aslr = _dyld_get_image_vmaddr_slide(0);
 	
+	const char json[]  = {
+	#include "ww.h"
+	};
+	
+	root = json_parse(json, strlen(json));
+	
 	msg_recv.Head.msgh_local_port = exception_port;
 	msg_recv.Head.msgh_size = sizeof(msg_recv);
 	
@@ -61,13 +67,13 @@ __attribute ((noinline)) void exception_handler() {
 	
 	mach_exc_server(&msg_recv.Head, &msg_resp.Head);
 	
-	    kr = mach_msg(&(msg_resp.Head),			// message
-                  MACH_SEND_MSG,			// options
-                  msg_resp.Head.msgh_size,	// send size
-                  0,						// receive limit (irrelevant here)
-                  MACH_PORT_NULL,			// port for receiving (none)
-                  100,						// no timeout
-                  MACH_PORT_NULL);			// notify port (we don't want one)
+	kr = mach_msg(&(msg_resp.Head),			// message
+			  MACH_SEND_MSG,			// options
+			  msg_resp.Head.msgh_size,	// send size
+			  0,						// receive limit (irrelevant here)
+			  MACH_PORT_NULL,			// port for receiving (none)
+			  100,						// no timeout
+			  MACH_PORT_NULL);			// notify port (we don't want one)
 
 }
 
@@ -98,32 +104,32 @@ void better_call_handler(uint64_t *state_struct_address) {
 
 uint64_t handle_nanomite_type(uint64_t address, uint64_t mnemonic, uint64_t offset, uint64_t jmp_offset, uint64_t flags) {
 	#if DEBUG
-		printf("[Debug | Dylib]offset: %i, jmp_offset: %d \n",offset, jmp_offset);
+		printf("[Debug | Dylib] offset: %i, jmp_offset: %d \n",offset, jmp_offset);
 	#endif
 	
 	if (mnemonic == X86_INS_CALL) {
-		return_call_address = address + jmp_offset - 0x1;
-		target_call_address = address + offset - 0x1;
+		return_call_address = address + jmp_offset;
+		target_call_address = address + offset;
 
 		return (uint64_t)&call_trampoline;
 	}
 	
 	if (mnemonic == X86_INS_JE) {
 		if (flags&ZERO_FLAG)
-			return address+offset - 0x1;
+			return address+offset;
 		else
-			return address+jmp_offset - 0x1;
+			return address+jmp_offset;
 	}
 	
 	if (mnemonic == X86_INS_JNE) {
 		if (flags&ZERO_FLAG)
-			return address+jmp_offset - 0x1;
+			return address+jmp_offset;
 		else
-			return address+offset - 0x1;
+			return address+offset;
 	}
 	
 	if (mnemonic == X86_INS_JMP) {
-			return address+offset - 0x1;
+			return address+offset ;
 	}
 	
 	return 0x00000000;
@@ -181,7 +187,7 @@ uint64_t nanomite_recognize(uint64_t address, uint64_t flags) {
 				printf("[Debug | Dylib] Runniong handler <0><o> \n");
 			#endif
 			
-			return handle_nanomite_type(address, atoi(value_2->number), atoi(value_3->number), atoi(value_4->number), flags);
+			return handle_nanomite_type(address, atoi(value_2->number), atoi(value_3->number) - 0x1, atoi(value_4->number) - 0x1, flags);
 		}
 		
 		// Go next
@@ -193,15 +199,6 @@ uint64_t nanomite_recognize(uint64_t address, uint64_t flags) {
 
 void install_debugger() {
 	
-	const char json[] = "[ {\"offset\": 5599,\"mnemonic\": 259,\"jmp_offset\": 110,\"next_inst_offset\": 6 },{\"offset\": 5609,\"mnemonic\": 259,\"jmp_offset\": 53,\"next_inst_offset\": 6 },{\"offset\": 5649,\"mnemonic\": 56,\"jmp_offset\": 1037,\"next_inst_offset\": 5 },{\"offset\": 5657,\"mnemonic\": 264,\"jmp_offset\": 47,\"next_inst_offset\": 0 },{\"offset\": 5696,\"mnemonic\": 56,\"jmp_offset\": 990,\"next_inst_offset\": 5 },{\"offset\": 5704,\"mnemonic\": 264,\"jmp_offset\": 109,\"next_inst_offset\": 0 },{\"offset\": 5713,\"mnemonic\": 259,\"jmp_offset\": 53,\"next_inst_offset\": 6 },{\"offset\": 5753,\"mnemonic\": 56,\"jmp_offset\": 933,\"next_inst_offset\": 5 },{\"offset\": 5761,\"mnemonic\": 264,\"jmp_offset\": 47,\"next_inst_offset\": 0 },{\"offset\": 5800,\"mnemonic\": 56,\"jmp_offset\": 886,\"next_inst_offset\": 5 },{\"offset\": 5808,\"mnemonic\": 264,\"jmp_offset\": 5,\"next_inst_offset\": 0 },{\"offset\": 5872,\"mnemonic\": 56,\"jmp_offset\": 862,\"next_inst_offset\": 5 },{\"offset\": 5885,\"mnemonic\": 56,\"jmp_offset\": 825,\"next_inst_offset\": 5 },{\"offset\": 5905,\"mnemonic\": 56,\"jmp_offset\": 817,\"next_inst_offset\": 5 },{\"offset\": 5915,\"mnemonic\": 56,\"jmp_offset\": 801,\"next_inst_offset\": 5 },{\"offset\": 5948,\"mnemonic\": 56,\"jmp_offset\": 732,\"next_inst_offset\": 5 },{\"offset\": 5964,\"mnemonic\": 56,\"jmp_offset\": 728,\"next_inst_offset\": 5 },{\"offset\": 5998,\"mnemonic\": 56,\"jmp_offset\": 730,\"next_inst_offset\": 5 },{\"offset\": 6060,\"mnemonic\": 56,\"jmp_offset\": 668,\"next_inst_offset\": 5 },{\"offset\": 6075,\"mnemonic\": 259,\"jmp_offset\": 63,\"next_inst_offset\": 6 },{\"offset\": 6088,\"mnemonic\": 265,\"jmp_offset\": 28,\"next_inst_offset\": 6 },{\"offset\": 6103,\"mnemonic\": 56,\"jmp_offset\": 625,\"next_inst_offset\": 5 },{\"offset\": 6111,\"mnemonic\": 264,\"jmp_offset\": 22,\"next_inst_offset\": 0 },{\"offset\": 6125,\"mnemonic\": 56,\"jmp_offset\": 603,\"next_inst_offset\": 5 },{\"offset\": 6133,\"mnemonic\": 264,\"jmp_offset\": 5,\"next_inst_offset\": 0 },{\"offset\": 6147,\"mnemonic\": 56,\"jmp_offset\": 581,\"next_inst_offset\": 5 },{\"offset\": 6162,\"mnemonic\": 56,\"jmp_offset\": -610,\"next_inst_offset\": 5 },{\"offset\": 6179,\"mnemonic\": 56,\"jmp_offset\": 549,\"next_inst_offset\": 5 },{\"offset\": 6196,\"mnemonic\": 56,\"jmp_offset\": -644,\"next_inst_offset\": 5 },{\"offset\": 6213,\"mnemonic\": 56,\"jmp_offset\": 515,\"next_inst_offset\": 5 },{\"offset\": 6231,\"mnemonic\": 56,\"jmp_offset\": -679,\"next_inst_offset\": 5 },{\"offset\": 6248,\"mnemonic\": 56,\"jmp_offset\": 480,\"next_inst_offset\": 5 },{\"offset\": 6266,\"mnemonic\": 56,\"jmp_offset\": -714,\"next_inst_offset\": 5 },{\"offset\": 6283,\"mnemonic\": 56,\"jmp_offset\": 445,\"next_inst_offset\": 5 },{\"offset\": 6304,\"mnemonic\": 56,\"jmp_offset\": -752,\"next_inst_offset\": 5 },{\"offset\": 6321,\"mnemonic\": 56,\"jmp_offset\": 407,\"next_inst_offset\": 5 },{\"offset\": 6342,\"mnemonic\": 56,\"jmp_offset\": -790,\"next_inst_offset\": 5 },{\"offset\": 6359,\"mnemonic\": 56,\"jmp_offset\": 369,\"next_inst_offset\": 5 },{\"offset\": 6380,\"mnemonic\": 56,\"jmp_offset\": -828,\"next_inst_offset\": 5 },{\"offset\": 6397,\"mnemonic\": 56,\"jmp_offset\": 331,\"next_inst_offset\": 5 },{\"offset\": 6415,\"mnemonic\": 56,\"jmp_offset\": -863,\"next_inst_offset\": 5 },{\"offset\": 6432,\"mnemonic\": 56,\"jmp_offset\": 296,\"next_inst_offset\": 5 },{\"offset\": 6453,\"mnemonic\": 56,\"jmp_offset\": -901,\"next_inst_offset\": 5 },{\"offset\": 6470,\"mnemonic\": 56,\"jmp_offset\": 258,\"next_inst_offset\": 5 },{\"offset\": 6491,\"mnemonic\": 56,\"jmp_offset\": -939,\"next_inst_offset\": 5 },{\"offset\": 6508,\"mnemonic\": 56,\"jmp_offset\": 220,\"next_inst_offset\": 5 },{\"offset\": 6529,\"mnemonic\": 56,\"jmp_offset\": -977,\"next_inst_offset\": 5 },{\"offset\": 6546,\"mnemonic\": 56,\"jmp_offset\": 182,\"next_inst_offset\": 5 },{\"offset\": 6566,\"mnemonic\": 56,\"jmp_offset\": 162,\"next_inst_offset\": 5 },{\"offset\": 6586,\"mnemonic\": 56,\"jmp_offset\": 142,\"next_inst_offset\": 5 },{\"offset\": 6604,\"mnemonic\": 259,\"jmp_offset\": 39,\"next_inst_offset\": 6 },{\"offset\": 6617,\"mnemonic\": 259,\"jmp_offset\": 26,\"next_inst_offset\": 6 },{\"offset\": 6632,\"mnemonic\": 56,\"jmp_offset\": 96,\"next_inst_offset\": 5 },{\"offset\": 6651,\"mnemonic\": 259,\"jmp_offset\": 18,\"next_inst_offset\": 6 },{\"offset\": 6664,\"mnemonic\": 56,\"jmp_offset\": 40,\"next_inst_offset\": 5 },{\"offset\": 6674,\"mnemonic\": 56,\"jmp_offset\": 24,\"next_inst_offset\": -6674 } ]";
-	
-//	const char json[]  = {
-//	#include "a.data"
-//	};
-	
-	root = json_parse(json, strlen(json));
-
-
 	kern_return_t kr;
 	
 	mach_port_t myself = mach_task_self();
@@ -223,7 +220,7 @@ void install_debugger() {
 	// start DGB
 	pthread_t exception_thread = NULL;
 	if	(pthread_create(&exception_thread,
-						(pthread_attr_t *)0,					// "If attr is NULL, then the thread is created withdefault attributes."
+						(pthread_attr_t *)0,					// "If attr is NULL, then the thread is created with default attributes."
 						(void *(*)(void *))exception_handler,	// our start_routine
 						(void *)0)
 		)
@@ -269,8 +266,7 @@ kern_return_t catch_mach_exception_raise(mach_port_t            port,
 	uint64_t flags = state.__rflags;
 	
 	#if DEBUG
-		printf("[Debug | Dylib] Exception with nanomite Triggered !\n");
-		printf("[Debug | Dylib] ASLR: %p\n", aslr);
+		printf("[Debug | Dylib] Breakpoint exception with nanomite triggered !\n");
 		printf("[Debug | Dylib] RIP: %p (No ASLR: %p), Flags: %llu\n", rip, rip-aslr, flags);
 	#endif
 		
@@ -288,26 +284,32 @@ kern_return_t catch_mach_exception_raise(mach_port_t            port,
 				#if DEBUG
 					printf("[Debug | Dylib] FOUND ! Continuing.\n");
 					printf("[Debug | Dylib] Setting RIP to %p (NO ALSR: %p).\n", final, final-aslr);
-					printf("[Debug | Dylib] New RIP content: %llx\n", &final);
-					printf("[Debug | Dylib] return_call_address: %p\n", return_call_address-aslr);
-					printf("[Debug | Dylib] target_call_address: %p\n", target_call_address-aslr);
-	
 				#endif
+				
+				state.__rip = final;
+				kr = thread_set_state(threadid, flavor, (thread_state_t)&state, count);
+				install_debugger();
+				return KERN_SUCCESS;
 			}
 			
-			state.__rip = final;
-			kr = thread_set_state(threadid, flavor, (thread_state_t)&state, count);
-			install_debugger();
+			#if DEBUG
+				printf("[Debug | Dylib] Data for current breakpint NOT found. Crash in 3..2..1..\n");
+			#endif
+			
+			// Try to resume..
 			return KERN_SUCCESS;
 			
 			break; // ....
 		}
 			
 		default: {
+			#if DEBUG
+				printf("[Debug | Dylib] Wrong exception type. Bad things will happen\n");
+			#endif
+			
 			exit(1);
 		}
 	}
-	
 	return(0);
 }
 
