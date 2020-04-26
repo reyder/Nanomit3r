@@ -107,6 +107,11 @@ uint64_t handle_nanomite_type(uint64_t address, uint64_t mnemonic, uint64_t offs
 		printf("[Debug | Dylib] offset: %i, jmp_offset: %d \n",offset, jmp_offset);
 	#endif
 	
+	// This is really bad. bunch of IF-s
+	// We need to support only few instructions
+	// So I will convert this code th switch statment
+	// it will be faster, compiler will generate branch table
+	
 	if (mnemonic == X86_INS_CALL) {
 		return_call_address = address + jmp_offset;
 		target_call_address = address + offset;
@@ -130,6 +135,35 @@ uint64_t handle_nanomite_type(uint64_t address, uint64_t mnemonic, uint64_t offs
 	
 	if (mnemonic == X86_INS_JMP) {
 			return address+offset ;
+	}
+	
+	if (mnemonic == X86_INS_JNS) {
+		if (flags&SIGN_FLAG)
+			return address+jmp_offset;
+		else
+			return address+offset;
+	}
+	
+	if (mnemonic == X86_INS_JS) {
+		if (flags&SIGN_FLAG)
+			return address+offset;
+		else
+			return address+jmp_offset;
+	}
+	
+	if (mnemonic == X86_INS_JNO) {
+		if (flags&SIGN_FLAG)
+			return address+jmp_offset;
+		else
+			return address+offset;
+	}
+	
+	hello:
+	if (mnemonic == X86_INS_JO) {
+		if (flags&SIGN_FLAG)
+			return address+offset;
+		else
+			return address+jmp_offset;
 	}
 	
 	return 0x00000000;

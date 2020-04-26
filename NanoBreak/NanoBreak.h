@@ -24,11 +24,20 @@ if (kr != KERN_SUCCESS) { mach_error(msg ":" , kr); exit((retval)); }
 
 // Macros
 #define BASE_ADDR 0x100000000
-#define ZERO_FLAG 0x0040
 #define SLAP_STACK_FRAME    asm("pop %rbp");
 
+// flags
+#define CARR_FLAG 0x0001
+#define PART_FLAG 0x0004
+#define ADJS_FLAG 0x0010
+#define ZERO_FLAG 0x0040
+#define SIGN_FLAG 0x0080
+#define TRAP_FLAG 0x0100
+#define INTR_FLAG 0x0200
+#define DIRE_FLAG 0x0400
+#define OVFL_FLAG 0x0800
 
-// From capstone
+// From capstone, we don't need whole header
 #define X86_INS_CALL 56
 #define X86_INS_JAE 253
 #define X86_INS_JA 254
