@@ -144,7 +144,7 @@ bool CVMStuff::lookForNanomites(JSONAnt& ptr) {
 					auto next_inst_offset = insn[j+1].address - insn[j].address;
 					
 					// Lets save space
-					if (insn[j].id == X86_INS_JMP || insn[j].id == X86_INS_CALL) {
+					if (insn[j].id == X86_INS_JMP) {
 						next_inst_offset = 0;
 					}
 					
