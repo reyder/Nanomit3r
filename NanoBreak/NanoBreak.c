@@ -8,9 +8,10 @@
 
 #include "NanoBreak.h"
 #include "json.h"
+#include <sys/time.h>
 mach_port_t exception_port;
 
-#define DEBUG 0
+#define DEBUG 1
 
 void install_debugger(void) __attribute__ ((constructor));
 
@@ -19,6 +20,12 @@ struct json_value_s* root;
 uint64_t aslr;
 uint64_t return_call_address;
 uint64_t target_call_address;
+
+#if DEBUG
+	struct timespec start, end;
+	int warunkowe = 0;
+	double suma_czasu = 0;
+#endif
 
 
 // [ __attribute ((noinline)) ] prevents the compiler from optimization
@@ -35,6 +42,9 @@ __attribute ((noinline)) void exception_handler() {
 	};
 	
 	root = json_parse(json, strlen(json));
+	
+	/// TEST
+	
 	
 	msg_recv.Head.msgh_local_port = exception_port;
 	msg_recv.Head.msgh_size = sizeof(msg_recv);
@@ -77,6 +87,13 @@ __attribute ((noinline)) void exception_handler() {
 
 }
 
+uint64_t rdtsc(){
+    unsigned int lo,hi;
+    __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
+    return ((uint64_t)hi << 32) | lo;
+}
+
+
 void call_trampoline() {
 	SLAP_STACK_FRAME
 	
@@ -104,69 +121,81 @@ void better_call_handler(uint64_t *state_struct_address) {
 
 uint64_t handle_nanomite_type(uint64_t address, uint64_t mnemonic, uint64_t offset, uint64_t jmp_offset, uint64_t flags) {
 	#if DEBUG
+		warunkowe++;
 		printf("[Debug | Dylib] offset: %i, jmp_offset: %d \n",offset, jmp_offset);
 	#endif
 	
-	// This is really bad. bunch of IF-s
-	// We need to support only few instructions
-	// So I will convert this code th switch statment
-	// it will be faster, compiler will generate branch table
+	uint8_t condition;
 	
-	if (mnemonic == X86_INS_CALL) {
-		return_call_address = address + jmp_offset;
-		target_call_address = address + offset;
+	switch( mnemonic ) {
+		case X86_INS_CALL:
+			return_call_address = address + jmp_offset;
+			target_call_address = address + offset;
 
-		return (uint64_t)&call_trampoline;
+			return (uint64_t)&call_trampoline;
+			break;
+		case X86_INS_JMP:
+			condition = 1;
+			break;
+		case X86_INS_JE:
+			condition = (flags&ZERO_FLAG) ? 1 : 0;
+			break;
+		case X86_INS_JNE:
+			condition = (flags&ZERO_FLAG) ? 0 : 1;
+			break;
+		case X86_INS_JS:
+			condition = (flags&SIGN_FLAG) ? 1 : 0;
+			break;
+		case X86_INS_JNS:
+			condition = (flags&SIGN_FLAG) ? 0 : 1;
+			break;
+		case X86_INS_JO:
+			condition = (flags&OVFL_FLAG) ? 1 : 0;
+			break;
+		case X86_INS_JNP:
+			condition = (flags&PART_FLAG) ? 0 : 1;
+			break;
+		case X86_INS_JNO:
+			condition = (flags&PART_FLAG) ? 0 : 1;
+			break;
+		case X86_INS_JLE:
+			condition = ((flags&ZERO_FLAG) || ((flags&SIGN_FLAG) != (flags&OVFL_FLAG))) ? 1 : 0;
+			break;
+		case X86_INS_JG:
+			condition = ((flags&ZERO_FLAG) || ((flags&ZERO_FLAG) != (flags&OVFL_FLAG))) ? 0 : 1;
+			break;
+//			Jump short if RCX register is 0. ..................
+//		case X86_INS_JRCXZ:
+//			condition = (flags&SIGN_FLAG) ? 1 : 0;
+//			break;
+		case X86_INS_JL:
+			condition = ((flags&SIGN_FLAG) != (flags&OVFL_FLAG)) ? 1 : 0;
+			break;
+		case X86_INS_JB:
+			condition = (flags&CARR_FLAG) ? 1 : 0;
+			break;
+		case X86_INS_JBE:
+			condition = ((flags&CARR_FLAG) || (flags&ZERO_FLAG)) ? 1 : 0;
+			break;
+		case X86_INS_JA:
+			condition = ((flags&CARR_FLAG) || (flags&ZERO_FLAG)) ? 0 : 1;
+			break;
+		case X86_INS_JAE:
+			condition = (flags&CARR_FLAG) ? 0 : 1;
+			break;
+			
+		// case X86_INS_JGE: Not supported in 64-bit mode.
+	   
+		default:
+			condition = 1;
+			break;
 	}
 	
-	if (mnemonic == X86_INS_JE) {
-		if (flags&ZERO_FLAG)
-			return address+offset;
-		else
-			return address+jmp_offset;
-	}
-	
-	if (mnemonic == X86_INS_JNE) {
-		if (flags&ZERO_FLAG)
-			return address+jmp_offset;
-		else
-			return address+offset;
-	}
-	
-	if (mnemonic == X86_INS_JMP) {
-			return address+offset ;
-	}
-	
-	if (mnemonic == X86_INS_JNS) {
-		if (flags&SIGN_FLAG)
-			return address+jmp_offset;
-		else
-			return address+offset;
-	}
-	
-	if (mnemonic == X86_INS_JS) {
-		if (flags&SIGN_FLAG)
-			return address+offset;
-		else
-			return address+jmp_offset;
-	}
-	
-	if (mnemonic == X86_INS_JNO) {
-		if (flags&SIGN_FLAG)
-			return address+jmp_offset;
-		else
-			return address+offset;
-	}
-	
-	hello:
-	if (mnemonic == X86_INS_JO) {
-		if (flags&SIGN_FLAG)
-			return address+offset;
-		else
-			return address+jmp_offset;
-	}
-	
-	return 0x00000000;
+	if (condition)
+		return address+offset;
+	else
+		return address+jmp_offset;
+		
 }
 
 uint64_t nanomite_recognize(uint64_t address, uint64_t flags) {
@@ -285,6 +314,10 @@ kern_return_t catch_mach_exception_raise(mach_port_t            port,
 										 exception_data_t       code,
 										 mach_msg_type_number_t code_count){
 	
+	#if DEBUG
+		clock_gettime(CLOCK_MONOTONIC, &start);
+	#endif
+	
 	kern_return_t kr;
 	
 	x86_thread_state64_t state;
@@ -323,12 +356,26 @@ kern_return_t catch_mach_exception_raise(mach_port_t            port,
 				state.__rip = final;
 				kr = thread_set_state(threadid, flavor, (thread_state_t)&state, count);
 				install_debugger();
+				
+				#if DEBUG
+					clock_gettime(CLOCK_MONOTONIC, &end);
+					
+					double time_taken;
+					time_taken = (end.tv_sec - start.tv_sec) * 1e9;
+					time_taken = (time_taken + (end.tv_nsec - start.tv_nsec)) * 1e-9;
+					suma_czasu = suma_czasu + time_taken;
+					printf("[Debug | Dylib] TIME %f \n", suma_czasu/warunkowe);
+					printf("[Debug | Dylib] TIME %f \n", suma_czasu);
+					printf("[Debug | Dylib] TIME %i \n", warunkowe);
+				#endif
+				
 				return KERN_SUCCESS;
 			}
 			
 			#if DEBUG
 				printf("[Debug | Dylib] Data for current breakpint NOT found. Crash in 3..2..1..\n");
 			#endif
+			
 			
 			// Try to resume..
 			return KERN_SUCCESS;
