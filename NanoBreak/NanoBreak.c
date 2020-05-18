@@ -11,7 +11,6 @@
 #include <sys/time.h>
 mach_port_t exception_port;
 
-#define DEBUG 1
 
 void install_debugger(void) __attribute__ ((constructor));
 
