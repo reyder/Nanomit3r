@@ -20,7 +20,7 @@ Want to contribute? Great! .. but not yet !
 
 For development build:
 ```sh
-$ xcodebuild -target Nanomit3r -scheme DEBUG build
+$ xcodebuild -target Nanomit3r -scheme Nanomit3r -configuration DEBUG build
 ```
 Make sure to install capstone library from brew and link it in the project.
 
@@ -39,13 +39,19 @@ In result we receive 2 files:
 Next step is to build external library. We need first copy `nanomite_data.json` file to Nanobreak folder in this project. Afterwards execute:
 
 ```bash
-xcodebuild -target NanoBreak -scheme DEBUG build
+xcodebuild -target NanoBreak -scheme NanoBreak -configuration DEBUG build
 ```
 
 Finally we have alle parts and we can execute our binary. You can use any injection method to attach dylib. For testing purposes you can try:
 
 ```bash
 DYLD_INSERT_LIBRARIES=/Users/korona/libNanoBreak.dylib /Users/korona/csr_mod
+```
+
+Special script was created for automted building and execution. Bash version 4+ is required: `brew install bash` 
+
+```bash
+./helper.sh
 ```
 
 ## Tech
@@ -58,11 +64,11 @@ Nanomiter uses a number of open source projects to work properly:
 
 ## Todos
 
-- [ ] Add json output file for PART 1
+- [x] Add json output file for PART 1
 - [ ] Support multiple segments / sections in dissassembly
 - [ ] Add limits for nanomites
 - [ ] Randomization
-- [ ] Add support for calls
+- [x] Add support for calls
 
 **Free Software, Hell Yeah!**
 
