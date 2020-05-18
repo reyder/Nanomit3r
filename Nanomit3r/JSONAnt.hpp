@@ -15,8 +15,8 @@
 #include <fstream>
 
 
-#define JSON_START  "[ ";
-#define JSON_END    " ]";
+#define JSON_START  "\"[ ";
+#define JSON_END    " ]\"";
 #define JSON_DELIM    ",";
 
 using namespace std;
