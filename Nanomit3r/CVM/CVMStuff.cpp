@@ -127,6 +127,11 @@ bool CVMStuff::lookForNanomites(JSONAnt& ptr) {
 		if (count > 0) {
 			for (int j = 0; j < count; j++) {
 				if (std::find(nanomite_types.begin(), nanomite_types.end(), insn[j].id) != nanomite_types.end()) {
+					// check if its not jmp REG
+					string test_length = insn[j].op_str;
+					if (test_length.length() < 6)
+						continue;
+					
 					// have no idea how to print offset here. datail object, ox x86 not found
 					// workaround for now..
 					unsigned long pre_offset = std::stoul(insn[j].op_str, nullptr, 16);
