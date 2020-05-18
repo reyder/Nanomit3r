@@ -10,12 +10,12 @@
 		120B2B7F242AED3C00C5C5B5 /* JSONAnt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 120B2B7D242AED3C00C5C5B5 /* JSONAnt.cpp */; };
 		121A091A23E71B8100922BC8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 121A091923E71B8100922BC8 /* main.cpp */; };
 		121A092223E71BC100922BC8 /* CVMStuff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 121A092023E71BC000922BC8 /* CVMStuff.cpp */; };
+		127D0703246EE3A4002E2357 /* libcapstone.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 127D0702246EE3A4002E2357 /* libcapstone.4.dylib */; };
 		128EC70D24537C9F0048C17B /* NanoBreak.c in Sources */ = {isa = PBXBuildFile; fileRef = 128EC70C24537C9F0048C17B /* NanoBreak.c */; };
 		12CBE50D243A2CC700E6B549 /* NanoBreak.h in Headers */ = {isa = PBXBuildFile; fileRef = 12CBE50C243A2CC700E6B549 /* NanoBreak.h */; };
 		12CBE518243A2F4200E6B549 /* mach_excServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 12CBE516243A2F4200E6B549 /* mach_excServer.h */; };
 		12CBE519243A2F4200E6B549 /* mach_excServer.c in Sources */ = {isa = PBXBuildFile; fileRef = 12CBE517243A2F4200E6B549 /* mach_excServer.c */; };
 		12CBE51C243A4D6900E6B549 /* json.h in Headers */ = {isa = PBXBuildFile; fileRef = 12CBE51A243A4D6900E6B549 /* json.h */; };
-		12E6FFA423F9D0150092DC56 /* libcapstone.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 12E6FFA323F9D0150092DC56 /* libcapstone.4.dylib */; };
 		12EDE1D624461202000CAF29 /* ww.h in Headers */ = {isa = PBXBuildFile; fileRef = 12EDE1D524461202000CAF29 /* ww.h */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +38,7 @@
 		121A091923E71B8100922BC8 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		121A092023E71BC000922BC8 /* CVMStuff.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CVMStuff.cpp; sourceTree = "<group>"; };
 		121A092123E71BC000922BC8 /* CVMStuff.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CVMStuff.hpp; sourceTree = "<group>"; };
+		127D0702246EE3A4002E2357 /* libcapstone.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcapstone.4.dylib; path = ../../../../../../usr/local/Cellar/capstone/4.0.2/lib/libcapstone.4.dylib; sourceTree = "<group>"; };
 		128EC70C24537C9F0048C17B /* NanoBreak.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = NanoBreak.c; sourceTree = "<group>"; };
 		12CBE50A243A2CC700E6B549 /* libNanoBreak.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libNanoBreak.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		12CBE50C243A2CC700E6B549 /* NanoBreak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoBreak.h; sourceTree = "<group>"; };
@@ -45,7 +46,6 @@
 		12CBE517243A2F4200E6B549 /* mach_excServer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mach_excServer.c; sourceTree = "<group>"; };
 		12CBE51A243A4D6900E6B549 /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
 		12E6FF9F23F9C6580092DC56 /* argparse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = argparse.hpp; sourceTree = "<group>"; };
-		12E6FFA323F9D0150092DC56 /* libcapstone.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcapstone.4.dylib; path = ../../../../usr/local/Cellar/capstone/4.0.1/lib/libcapstone.4.dylib; sourceTree = "<group>"; };
 		12EDE1D224460FFA000CAF29 /* a.data */ = {isa = PBXFileReference; lastKnownFileType = text; path = a.data; sourceTree = "<group>"; };
 		12EDE1D524461202000CAF29 /* ww.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ww.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				12E6FFA423F9D0150092DC56 /* libcapstone.4.dylib in Frameworks */,
+				127D0703246EE3A4002E2357 /* libcapstone.4.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,7 +134,7 @@
 		12E6FFA223F9D0150092DC56 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				12E6FFA323F9D0150092DC56 /* libcapstone.4.dylib */,
+				127D0702246EE3A4002E2357 /* libcapstone.4.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -372,7 +372,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/capstone/4.0.1/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/Cellar/capstone/4.0.1/lib,
+					/usr/local/Cellar/capstone/4.0.2/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -381,7 +384,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/capstone/4.0.1/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/Cellar/capstone/4.0.1/lib,
+					/usr/local/Cellar/capstone/4.0.2/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
