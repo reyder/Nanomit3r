@@ -49,6 +49,7 @@ DYLD_INSERT_LIBRARIES=/Users/korona/libNanoBreak.dylib /Users/korona/csr_mod
 ```
 
 Special script was created for automted building and execution. Bash version 4+ is required: `brew install bash` 
+All builds will be stored in project folder.
 
 ```bash
 ./helper.sh
