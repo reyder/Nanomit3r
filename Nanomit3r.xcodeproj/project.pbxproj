@@ -22,12 +22,12 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		121A091423E71B8100922BC8 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
+			buildActionMask = 12;
+			dstPath = /path_to_project;
 			dstSubfolderSpec = 0;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -46,7 +46,6 @@
 		12CBE517243A2F4200E6B549 /* mach_excServer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mach_excServer.c; sourceTree = "<group>"; };
 		12CBE51A243A4D6900E6B549 /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
 		12E6FF9F23F9C6580092DC56 /* argparse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = argparse.hpp; sourceTree = "<group>"; };
-		12EDE1D224460FFA000CAF29 /* a.data */ = {isa = PBXFileReference; lastKnownFileType = text; path = a.data; sourceTree = "<group>"; };
 		12EDE1D524461202000CAF29 /* ww.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ww.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,7 +106,6 @@
 				12CBE50C243A2CC700E6B549 /* NanoBreak.h */,
 				128EC70C24537C9F0048C17B /* NanoBreak.c */,
 				12CBE51A243A4D6900E6B549 /* json.h */,
-				12EDE1D224460FFA000CAF29 /* a.data */,
 				12EDE1D524461202000CAF29 /* ww.h */,
 			);
 			path = NanoBreak;
@@ -160,9 +158,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 121A091D23E71B8100922BC8 /* Build configuration list for PBXNativeTarget "Nanomit3r" */;
 			buildPhases = (
+				121A091423E71B8100922BC8 /* CopyFiles */,
 				121A091223E71B8100922BC8 /* Sources */,
 				121A091323E71B8100922BC8 /* Frameworks */,
-				121A091423E71B8100922BC8 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -404,6 +402,7 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -421,6 +420,7 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
