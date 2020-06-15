@@ -87,7 +87,7 @@ void CVMStuff::lookForSections() {
 			size = section_o->size;
 			
 			#if DEBUG
-				printf("[DEBUG] Found segment (%s) and section (%s), address = 0x%llx\n", segment.c_str(), section.c_str(), section_o->addr);
+			printf("[DEBUG] Found segment (%s) and section (%s), address = 0x%llx, size = %llu\n", segment.c_str(), section.c_str(), section_o->addr, section_o->size);
 			#endif
 		}
 	}
@@ -101,7 +101,9 @@ bool CVMStuff::lookForNanomites(JSONAnt& ptr) {
 	if (cs_open(CS_ARCH_X86, CS_MODE_64, &handle) != CS_ERR_OK)
 		return false;
 	
-	cs_option(handle, CS_OPT_DETAIL, CS_OPT_ON); //
+	cs_option(handle, CS_OPT_DETAIL, CS_OPT_ON);
+	cs_option(handle, CS_OPT_DETAIL, CS_OPT_ON);
+	cs_option(handle, CS_OPT_SKIPDATA, CS_OPT_ON);
 	
 	char *hack_and_magic;
 	uint8_t *real_data;
@@ -115,27 +117,50 @@ bool CVMStuff::lookForNanomites(JSONAnt& ptr) {
 		auto offset = get<2>(section) - BASE_ADDR;
 		auto size = get<3>(section);
 		real_data = (uint8_t *)(hack_and_magic+offset);
+		
+		#if DEBUG
+		printf("[DEBUG] Size of section to search: %llu\n", size);
+		#endif
 
 		count = cs_disasm(handle, (uint8_t *)real_data, size, get<2>(section), 0, &insn);
 		
 		#if DEBUG
 			printf("[DEBUG] Found [ %zu ] instruction !\n", count);
-
-			int added = 0;
 		#endif
+		
+		// For limitations.
+		int added = 0;
 		
 		if (count > 0) {
 			for (int j = 0; j < count; j++) {
+				// Adding more than 6k instructions might result in
+				// extending STACK memory
+				// This is limitiation of method that attach JSON data file
+				if (added > 6000) {
+					break;
+				}
+				
 				if (std::find(nanomite_types.begin(), nanomite_types.end(), insn[j].id) != nanomite_types.end()) {
 					// check if its not jmp REG
 					string test_length = insn[j].op_str;
 					if (test_length.length() < 6)
 						continue;
 					
+					unsigned long pre_offset;
+					unsigned long offset;
+					
 					// have no idea how to print offset here. datail object, ox x86 not found
 					// workaround for now..
-					unsigned long pre_offset = std::stoul(insn[j].op_str, nullptr, 16);
-					auto offset = pre_offset - insn[j].address;
+					try {
+						pre_offset = std::stoul(insn[j].op_str, nullptr, 16);
+						offset = pre_offset - insn[j].address;
+					}
+					catch(...) {
+						continue;
+						#if DEBUG
+							printf("JMP not supported: %s \n", insn[j].op_str);
+						#endif
+					}
 
 					// We need to know where is next instruction.
 					// This is required for conditional jmps if jmp is not made
@@ -159,9 +184,9 @@ bool CVMStuff::lookForNanomites(JSONAnt& ptr) {
 
 					#if DEBUG
 						printf("0x%" PRIx64":\t%s\t\t%lld\t\t%lld\n", insn[j].address, insn[j].mnemonic, offset, next_inst_offset);
-
-						added++;
 					#endif
+					
+					added++;
 				}
 			}
 			cs_free(insn, count);

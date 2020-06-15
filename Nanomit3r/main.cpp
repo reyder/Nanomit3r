@@ -127,8 +127,6 @@ int main(int argc, const char * argv[]) {
 	
 	// Get final JSON file
 	hello->to_file(path_output);
-	//hello->emerge();
-	//hello->print();
 	
 	// binary with nanomites
 	the_god->createNanomiteBinary(*hello, path_nanomite_output);
