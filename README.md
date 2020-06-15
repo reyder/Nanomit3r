@@ -55,6 +55,30 @@ All builds will be stored in project folder.
 ./helper.sh
 ```
 
+## Test commands
+
+This commands are used to test performance of the solution (No command for specific binary means no additional parameters). Path needs to be adjusted.
+
+```bash
+DYLD_INSERT_LIBRARIES=/Code/Nanomit3r/build_dylib/Build/Products/Debug/libNanoBreak.dylib /tmp/disarm_mod 0x1F2003D5
+```
+
+```bash
+DYLD_INSERT_LIBRARIES=/Code/Nanomit3r/build_dylib/Build/Products/Debug/libNanoBreak.dylib /tmp/stat_mod /Code/Nanomit3r/Examples/clear
+```
+
+```bash
+DYLD_INSERT_LIBRARIES=/Code/Nanomit3r/build_dylib/Build/Products/Debug/libNanoBreak.dylib /tmp/whois_mod wp.pl
+```
+
+```bash
+DYLD_INSERT_LIBRARIES=/Code/Nanomit3r/build_dylib/Build/Products/Debug/libNanoBreak.dylib /tmp/insert_dylib_mod --strip-codesig 'test' /Code/Nanomit3r/Examples/clear /tmp/result_m
+```
+
+```bash
+DYLD_INSERT_LIBRARIES=/Code/Nanomit3r/build_dylib/Build/Products/Debug/libNanoBreak.dylib /tmp/jtool2_mod -S /Code/Nanomit3r/Examples/clear
+```
+
 ## Tech
 
 Nanomiter uses a number of open source projects to work properly:

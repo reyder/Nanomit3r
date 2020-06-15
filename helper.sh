@@ -1,4 +1,12 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
+
+version_above_4(){
+    # If it's set, check the version
+    if [[ "${BASH_VERSINFO:-0}" -lt 4 ]]; then
+		echo "Bash version >= 4 required"
+		exit 0
+    fi
+}
 
 build_nanomiter() {
 	echo "Starting building Nanomit3r in $1 mode..."
@@ -27,7 +35,7 @@ only_run_main() {
 	WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 	WHICH_EXAMPLE="csr"
-	read -e -i "$WHICH_EXAMPLE" -p "Select example binary [inject_dylib | csr | jtool2 | disarm]: " WHICH_EXAMPLE
+	read -e -i "$WHICH_EXAMPLE" -p "Select example binary [inject_dylib | csr | jtool2 | disarm | ... ]: " WHICH_EXAMPLE
 
 	OUTPUT_BINARY="/tmp/${WHICH_EXAMPLE}_mod"
 
@@ -53,7 +61,7 @@ only_run_main() {
 	fi
 
 	SURE="y"
-	read -e -i "$SURE" -p "WARNING !!! You need to recompile DYLIB evry time you change example binary or parametrs [y/n]: " SURE
+	read -e -i "$SURE" -p "WARNING !!! You need to recompile DYLIB every time you change example binary or parametrs [y/n]: " SURE
 
 	if [[ $SURE != "y" ]]; then
 		echo "No agree. exit"
@@ -64,6 +72,8 @@ only_run_main() {
 }
 
 main() {
+	version_above_4
+
 	enter_working_dir
 
 	ONLY_RUN="y"
@@ -93,12 +103,12 @@ main() {
 	WHICH_SCHEME="RELEASE"
 	WHICH_EXAMPLE="csr"
 	read -e -i "$WHICH_SCHEME" -p "Which scheme do you want to use [RELEASE/DEBUG] for Nanomit3r: " WHICH_SCHEME
-	read -e -i "$WHICH_EXAMPLE" -p "Select example binary [inject_dylib | csr | jtool2 | disarm]: " WHICH_EXAMPLE
+	read -e -i "$WHICH_EXAMPLE" -p "Select example binary [inject_dylib | csr | jtool2 | disarm | ... ]: " WHICH_EXAMPLE
 
 	OUTPUT_BINARY="/tmp/${WHICH_EXAMPLE}_mod"
 	OUTPUT_JSON="/tmp/${WHICH_EXAMPLE}.json"
 
-	read -e -i "$OUTPUT_BINARY" -p "Select path for output modyfied bainry file: " OUTPUT_BINARY
+	read -e -i "$OUTPUT_BINARY" -p "Select path for output modyfied binary file: " OUTPUT_BINARY
 	read -e -i "$OUTPUT_JSON" -p "Select path for output JSON data file: " OUTPUT_JSON
 
 
