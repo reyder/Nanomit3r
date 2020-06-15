@@ -36,9 +36,11 @@ __attribute ((noinline)) void exception_handler() {
 	// Add ASLR
 	aslr = _dyld_get_image_vmaddr_slide(0);
 	
-	const char json[]  = {
+	
+	char json[]  = {
 	#include "ww.h"
 	};
+
 	
 	root = json_parse(json, strlen(json));
 	
@@ -86,12 +88,6 @@ __attribute ((noinline)) void exception_handler() {
 
 }
 
-uint64_t rdtsc(){
-    unsigned int lo,hi;
-    __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
-    return ((uint64_t)hi << 32) | lo;
-}
-
 
 void call_trampoline() {
 	SLAP_STACK_FRAME
@@ -121,7 +117,7 @@ void better_call_handler(uint64_t *state_struct_address) {
 uint64_t handle_nanomite_type(uint64_t address, uint64_t mnemonic, uint64_t offset, uint64_t jmp_offset, uint64_t flags) {
 	#if DEBUG
 		warunkowe++;
-		printf("[Debug | Dylib] offset: %i, jmp_offset: %d \n",offset, jmp_offset);
+		printf("[Debug | Dylib] address: %lld, offset: %i, jmp_offset: %d \n", (address - aslr), offset, jmp_offset);
 	#endif
 	
 	uint8_t condition;
@@ -163,6 +159,9 @@ uint64_t handle_nanomite_type(uint64_t address, uint64_t mnemonic, uint64_t offs
 		case X86_INS_JG:
 			condition = ((flags&ZERO_FLAG) || ((flags&ZERO_FLAG) != (flags&OVFL_FLAG))) ? 0 : 1;
 			break;
+		case X86_INS_JGE:
+			condition = ((flags&SIGN_FLAG) == (flags&OVFL_FLAG)) ? 1 : 0;
+			break;
 //			Jump short if RCX register is 0. ..................
 //		case X86_INS_JRCXZ:
 //			condition = (flags&SIGN_FLAG) ? 1 : 0;
@@ -182,13 +181,16 @@ uint64_t handle_nanomite_type(uint64_t address, uint64_t mnemonic, uint64_t offs
 		case X86_INS_JAE:
 			condition = (flags&CARR_FLAG) ? 0 : 1;
 			break;
-			
-		// case X86_INS_JGE: Not supported in 64-bit mode.
-	   
+				
 		default:
+			#if DEBUG
+				printf("[ Debug | Dylib] Not supported instruction ?: %d \n", mnemonic);
+			#endif
+
 			condition = 1;
 			break;
 	}
+	
 	
 	if (condition)
 		return address+offset;
@@ -363,9 +365,9 @@ kern_return_t catch_mach_exception_raise(mach_port_t            port,
 					time_taken = (end.tv_sec - start.tv_sec) * 1e9;
 					time_taken = (time_taken + (end.tv_nsec - start.tv_nsec)) * 1e-9;
 					suma_czasu = suma_czasu + time_taken;
-					printf("[Debug | Dylib] TIME %f \n", suma_czasu/warunkowe);
-					printf("[Debug | Dylib] TIME %f \n", suma_czasu);
-					printf("[Debug | Dylib] TIME %i \n", warunkowe);
+					printf("[Debug | Dylib] Time average for handling exception: %f \n", suma_czasu/warunkowe);
+					printf("[Debug | Dylib] Time handling exception: %f \n", suma_czasu);
+					printf("[Debug | Dylib] Number of handled exceptions: %i \n", warunkowe);
 				#endif
 				
 				return KERN_SUCCESS;
