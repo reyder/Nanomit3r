@@ -20,6 +20,7 @@ CVMStuff::CVMStuff(string path) {
 
 
 void CVMStuff::loadFile() {
+	// TODO: Better error handler.
 	fs::path filepath(fs::absolute(fs::path(file_path)));
 	
 	#if DEBUG
@@ -75,7 +76,7 @@ void CVMStuff::lookForSections() {
 	#if DEBUG
 		printf("[DEBUG] Start searching for sections and segments...\n");
 	#endif
-  
+
 	const struct mach_header_64 *mh = (const struct mach_header_64*)raw_data.data();
 	
 	for (sections &section_data: binary_sections) {
@@ -141,7 +142,7 @@ bool CVMStuff::lookForNanomites(JSONAnt& ptr) {
 				}
 				
 				if (std::find(nanomite_types.begin(), nanomite_types.end(), insn[j].id) != nanomite_types.end()) {
-					// check if its not jmp REG
+					// check if its not jmp REG type of instruction
 					string test_length = insn[j].op_str;
 					if (test_length.length() < 6)
 						continue;
@@ -149,7 +150,7 @@ bool CVMStuff::lookForNanomites(JSONAnt& ptr) {
 					unsigned long pre_offset;
 					unsigned long offset;
 					
-					// have no idea how to print offset here. datail object, ox x86 not found
+					// have no idea how to print offset here. detail object, ox x86 not found
 					// workaround for now..
 					try {
 						pre_offset = std::stoul(insn[j].op_str, nullptr, 16);
@@ -163,7 +164,7 @@ bool CVMStuff::lookForNanomites(JSONAnt& ptr) {
 					}
 
 					// We need to know where is next instruction.
-					// This is required for conditional jmps if jmp is not made
+					// This is required for conditional jmps if jmp is not 'made'
 					if (j + 1 >= count && insn[j].id != X86_INS_JMP && insn[j].id != X86_INS_CALL) {
 						// That's should never heppend but it might theoretically
 						printf("Exception 0x386");

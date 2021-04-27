@@ -19,6 +19,7 @@
 #define JSON_END    " ]\"";
 #define JSON_DELIM    ",";
 
+// Don't bring entire std namespace :-( but It's fine for this project.
 using namespace std;
 
 class JSONAnt {
@@ -35,7 +36,6 @@ public:
 	vector<uint32_t> bp_addr;   // just to make it work TEMP
 
 };
-    
 
 #endif /* JSONAnt_hpp */
 

@@ -37,15 +37,11 @@
 //#include <experimental/vector>
 #include <filesystem>
 
-
-
-
-/// CHECKED by me
 #include <capstone/capstone.h>
 #include "../JSONAnt.hpp"
 
 
-
+// It's fine, this is small project.
 using namespace std;
 namespace fs = std::__fs::filesystem;
 
@@ -58,7 +54,7 @@ typedef tuple<string, string, mach_vm_address_t, uint64_t, uint8_t, intptr_t> se
  ######### MACROS #######
  ##################### */
 #define BASE_ADDR 0x100000000
-#define NANOMITE    "\xCC\x90";
+#define NANOMITE  "\xCC\x90";
 
 
 #define SLAP_STACK_FRAME    asm("pop %rbp");
