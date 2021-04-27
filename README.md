@@ -22,7 +22,9 @@ For development build:
 ```sh
 $ xcodebuild -target Nanomit3r -scheme Nanomit3r -configuration DEBUG build
 ```
-Make sure to install capstone library from brew and link it in the project.
+
+| WARNING: Make sure to install capstone library from brew and link it in the project! |
+| --- |
 
 ## Usage
 
@@ -42,7 +44,7 @@ Next step is to build external library. We need first copy `nanomite_data.json` 
 xcodebuild -target NanoBreak -scheme NanoBreak -configuration DEBUG build
 ```
 
-Finally we have alle parts and we can execute our binary. You can use any injection method to attach dylib. For testing purposes you can try:
+Finally we have all parts and we can execute our binary. You can use any injection method to attach dylib. For testing purposes you can try:
 
 ```bash
 DYLD_INSERT_LIBRARIES=/Users/korona/libNanoBreak.dylib /Users/korona/csr_mod
