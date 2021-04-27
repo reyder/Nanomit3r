@@ -45,7 +45,7 @@ int main(int argc, const char * argv[]) {
 		.required(true);
 	
 	parser.add_argument()
-		.names({"-o2", "--output2"})
+		.names({"-ob", "--output_binary"})
 		.description("Path to JSON output file")
 		.required(true);
 
@@ -77,7 +77,7 @@ int main(int argc, const char * argv[]) {
 	// maps
 	string path_binary = parser.get<std::string>("file");
 	string path_output = parser.get<std::string>("output");
-	string path_nanomite_output = parser.get<std::string>("output2");
+	string path_nanomite_output = parser.get<std::string>("output_binary");
 	string segment_binary = parser.get<std::string>("segment");
 	string section_binary = parser.get<std::string>("section");
 
@@ -85,37 +85,35 @@ int main(int argc, const char * argv[]) {
 	// Here are sections that we need and parser needs to find
 	// For now as static
 	// TODO: add multiple sections
-    static const string section_types[1][2] = {
-        { segment_binary, section_binary },
-    };
+	static const string section_types[1][2] = {
+		{ segment_binary, section_binary },
+	};
 	
 	// Types of instruction to nanomite
 	static const int nanomites_types[21] = {
 		X86_INS_JAE, X86_INS_JA, X86_INS_JBE, X86_INS_JB, X86_INS_JCXZ, X86_INS_JECXZ, X86_INS_JE, X86_INS_JGE, X86_INS_JG, X86_INS_JLE, X86_INS_JL,
 		X86_INS_JNE, X86_INS_JNO, X86_INS_JNP, X86_INS_JNS, X86_INS_JO, X86_INS_JP, X86_INS_JRCXZ, X86_INS_JS, X86_INS_JMP, X86_INS_CALL
-    };
+	};
 	
 	// Create G0d instance
 	CVMStuff *the_god;
 	the_god = new CVMStuff(path_binary);
 	
 	// add section info [ to be searched ]
-    for (auto section : section_types) {
-        the_god->addSectionInfo(section[0], section[1]);
-    }
+	for (auto section : section_types) {
+		the_god->addSectionInfo(section[0], section[1]);
+	}
 	
 	// add nanomite types
 	for (auto type : nanomites_types) {
-        the_god->addNanomiteType(type);
-    }
+		the_god->addNanomiteType(type);
+	}
 	
 	// Load binary file
 	the_god->loadFile();
 
 	// Look for sections
-    the_god->lookForSections();
-	
-	
+	the_god->lookForSections();
 	
 	// Create Js0n instance
 	JSONAnt *hello;
@@ -124,11 +122,10 @@ int main(int argc, const char * argv[]) {
 	// Look for potential nanomites
 	the_god->lookForNanomites(*hello);
 	
-	
 	// Get final JSON file
 	hello->to_file(path_output);
 	
-	// binary with nanomites
+	// Create binary with nanomites
 	the_god->createNanomiteBinary(*hello, path_nanomite_output);
 	
 	return 0;

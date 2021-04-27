@@ -67,7 +67,7 @@ typedef struct exc_msg {
 	mach_msg_port_descriptor_t thread;    // victim thread
 	mach_msg_port_descriptor_t task;      // end of kernel-processed data
 	NDR_record_t               NDR;       // see osfmk/mach/ndr.h
-	exception_type_t           exception;
+	exception_type_t           exception; // type of exception
 	mach_msg_type_number_t     codeCnt;   // number of elements in code[]
 	exception_data_t           code;      // an array of integer_t
 	char                       pad[512];  // for avoiding MACH_MSG_RCV_TOO_LARGE
@@ -89,8 +89,4 @@ __attribute ((noinline)) void exception_handler(void);
 extern boolean_t exc_server(mach_msg_header_t *request, mach_msg_header_t *reply);
 extern boolean_t mach_exc_server(mach_msg_header_t *request,mach_msg_header_t *reply);
 
-
-
-
 #endif
-

@@ -31,14 +31,14 @@ $ xcodebuild -target Nanomit3r -scheme Nanomit3r -configuration DEBUG build
 First step is to analyze binary file that we want to nanomite. Example of the command:
 
 ```bash
-/Users/korona/Nanomit3r -f /Users/korona/csr -s __text -g __TEXT -o /Users/korona/nanomite_data.json --output2 /Users/korona/csr_mod
+/Users/korona/Nanomit3r -f /Users/korona/csr -s __text -g __TEXT -o /Users/korona/nanomite_data.json --output_binary /Users/korona/csr_mod
 ```
 
 In result we receive 2 files:
 * JSON file with nanomite data
 * Modified binary file with nanomites
 
-Next step is to build external library. We need first copy `nanomite_data.json` file to Nanobreak folder in this project. Afterwards execute:
+Next step is to build external library. We need first copy `nanomite_data.json` as `ww.h` file to Nanobreak folder in this project. Afterwards execute:
 
 ```bash
 xcodebuild -target NanoBreak -scheme NanoBreak -configuration DEBUG build

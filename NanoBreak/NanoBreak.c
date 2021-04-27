@@ -14,7 +14,7 @@ mach_port_t exception_port;
 
 void install_debugger(void) __attribute__ ((constructor));
 
-struct json_value_s* root;
+struct json_value_s* root_json;
 
 uint64_t aslr;
 uint64_t return_call_address;
@@ -22,8 +22,8 @@ uint64_t target_call_address;
 
 #if DEBUG
 	struct timespec start, end;
-	int warunkowe = 0;
-	double suma_czasu = 0;
+	int conditional_count = 0;
+	double time_sum = 0;
 #endif
 
 
@@ -36,16 +36,15 @@ __attribute ((noinline)) void exception_handler() {
 	// Add ASLR
 	aslr = _dyld_get_image_vmaddr_slide(0);
 	
-	
+	// Hacky but fine for tests.
+	// ww.h is json type data.
 	char json[]  = {
 	#include "ww.h"
 	};
 
 	
-	root = json_parse(json, strlen(json));
-	
-	/// TEST
-	
+	root_json = json_parse(json, strlen(json));
+		
 	
 	msg_recv.Head.msgh_local_port = exception_port;
 	msg_recv.Head.msgh_size = sizeof(msg_recv);
@@ -78,7 +77,7 @@ __attribute ((noinline)) void exception_handler() {
 	
 	mach_exc_server(&msg_recv.Head, &msg_resp.Head);
 	
-	kr = mach_msg(&(msg_resp.Head),			// message
+	kr = mach_msg(&(msg_resp.Head),		// message
 			  MACH_SEND_MSG,			// options
 			  msg_resp.Head.msgh_size,	// send size
 			  0,						// receive limit (irrelevant here)
@@ -110,18 +109,20 @@ void call_trampoline() {
 }
 
 void better_call_handler(uint64_t *state_struct_address) {
-	// Maybe to DO
+	// Maybe TO DO
+	// I got weird errors when trying to change stack registers.
 	return;
 }
 
 uint64_t handle_nanomite_type(uint64_t address, uint64_t mnemonic, uint64_t offset, uint64_t jmp_offset, uint64_t flags) {
 	#if DEBUG
-		warunkowe++;
+		conditional_count++;
 		printf("[Debug | Dylib] address: %lld, offset: %i, jmp_offset: %d \n", (address - aslr), offset, jmp_offset);
 	#endif
 	
 	uint8_t condition;
 	
+	/* compile with optimization to create switch table in assembly */
 	switch( mnemonic ) {
 		case X86_INS_CALL:
 			return_call_address = address + jmp_offset;
@@ -163,6 +164,8 @@ uint64_t handle_nanomite_type(uint64_t address, uint64_t mnemonic, uint64_t offs
 			condition = ((flags&SIGN_FLAG) == (flags&OVFL_FLAG)) ? 1 : 0;
 			break;
 //			Jump short if RCX register is 0. ..................
+//			JECXZ & JCXZ don't seem to be recognized.
+//			those instructions are not allowed in x64
 //		case X86_INS_JRCXZ:
 //			condition = (flags&SIGN_FLAG) ? 1 : 0;
 //			break;
@@ -202,7 +205,7 @@ uint64_t handle_nanomite_type(uint64_t address, uint64_t mnemonic, uint64_t offs
 uint64_t nanomite_recognize(uint64_t address, uint64_t flags) {
 	unsigned long long target_value = (address - aslr - BASE_ADDR - 0x1);
 	
-	struct json_array_s* main_array = json_value_as_array(root);
+	struct json_array_s* main_array = json_value_as_array(root_json);
 	if (main_array->length == 0) {
 		
 		#if DEBUG
@@ -216,7 +219,13 @@ uint64_t nanomite_recognize(uint64_t address, uint64_t flags) {
 	struct json_array_element_s* arr_ele = main_array->start;
 	
 	while (1) {
-		// Let's get first ot last or 2nd etc. object
+		/*
+			This is one of the worst JSON libraries to work with
+			The idea was to choose the simplest one
+			It is only one header library but it's pain to work with it
+		*/
+
+		// Let's get first or last or 2nd etc. object
 		struct json_object_s* object = json_value_as_object(arr_ele->value);
 		
 		// This is the end. Hold your breath and count to 10..
@@ -248,7 +257,7 @@ uint64_t nanomite_recognize(uint64_t address, uint64_t flags) {
 			struct json_number_s* value_4 = json_value_as_number(d->value);
 			
 			#if DEBUG
-				printf("[Debug | Dylib] Runniong handler <0><o> \n");
+				printf("[Debug | Dylib] Running handler <0><o> \n");
 			#endif
 			
 			return handle_nanomite_type(address, atoi(value_2->number), atoi(value_3->number) - 0x1, atoi(value_4->number) - 0x1, flags);
@@ -307,7 +316,8 @@ void install_debugger() {
 
 // Here is the magic!
 // the code to be executed whenever an (correct) exception occurs
-// the logic of dealing with different exceptions stays here ??  gdb uses EXC_MASK_ALL, we have different ports if the mask is different
+// the logic of dealing with different exceptions stays here ??
+// gdb/lldb uses EXC_MASK_ALL, we have different ports if the mask is different
 kern_return_t catch_mach_exception_raise(mach_port_t            port,
 										 mach_port_t            threadid,
 										 mach_port_t            task,
@@ -343,9 +353,10 @@ kern_return_t catch_mach_exception_raise(mach_port_t            port,
 		case EXC_BREAKPOINT: {
 
 			#if DEBUG
-				printf("[Debug | Dylib] This is BreakPoinT, trying to find it in data...\n");
+				printf("[Debug | Dylib] This is BreakPoint, trying to find it in data...\n");
 			#endif
 			
+			// Time complexity here is huge. Not sorted data.
 			uint64_t final = nanomite_recognize(rip, flags);
 			
 			if (final) {
@@ -364,17 +375,17 @@ kern_return_t catch_mach_exception_raise(mach_port_t            port,
 					double time_taken;
 					time_taken = (end.tv_sec - start.tv_sec) * 1e9;
 					time_taken = (time_taken + (end.tv_nsec - start.tv_nsec)) * 1e-9;
-					suma_czasu = suma_czasu + time_taken;
-					printf("[Debug | Dylib] Time average for handling exception: %f \n", suma_czasu/warunkowe);
-					printf("[Debug | Dylib] Time handling exception: %f \n", suma_czasu);
-					printf("[Debug | Dylib] Number of handled exceptions: %i \n", warunkowe);
+					time_sum = time_sum + time_taken;
+					printf("[Debug | Dylib] Time average for handling exception: %f \n", time_sum/conditional_count);
+					printf("[Debug | Dylib] Time handling exception: %f \n", time_sum);
+					printf("[Debug | Dylib] Number of handled exceptions: %i \n", conditional_count);
 				#endif
 				
 				return KERN_SUCCESS;
 			}
 			
 			#if DEBUG
-				printf("[Debug | Dylib] Data for current breakpint NOT found. Crash in 3..2..1..\n");
+				printf("[Debug | Dylib] Data for current breakpint NOT found. Potential crash in 3..2..1..\n");
 			#endif
 			
 			

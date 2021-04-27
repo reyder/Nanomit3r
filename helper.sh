@@ -114,10 +114,10 @@ main() {
 
 	if [[ $WHICH_SCHEME == "RELEASE" ]]; then
 		echo "Executing Nanomit3r RELEASE."
-		build/Build/Products/Release/Nanomit3r -f Examples/"$WHICH_EXAMPLE" -s __text -g __TEXT -o "$OUTPUT_JSON" --output2 "$OUTPUT_BINARY"
+		build/Build/Products/Release/Nanomit3r -f Examples/"$WHICH_EXAMPLE" -s __text -g __TEXT -o "$OUTPUT_JSON" --output_binary "$OUTPUT_BINARY"
 	else
 		echo "Executing Nanomit3r DEBUG."
-		build/Build/Products/Debug/Nanomit3r -f Examples/"$WHICH_EXAMPLE" -s __text -g __TEXT -o "$OUTPUT_JSON" --output2 "$OUTPUT_BINARY"
+		build/Build/Products/Debug/Nanomit3r -f Examples/"$WHICH_EXAMPLE" -s __text -g __TEXT -o "$OUTPUT_JSON" --output_binary "$OUTPUT_BINARY"
 	fi
 
 	echo "Move data file to NanoBreak Target..."
